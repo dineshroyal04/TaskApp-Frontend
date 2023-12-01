@@ -1,21 +1,20 @@
-// components/Task.js
+// Task.js
 import React from 'react';
-import '../App.css'
-import { Draggable } from 'react-beautiful-dnd';
 
-const Task = ({ task, index }) => (
-  <Draggable draggableId={task.id.toString()} index={index}>
-    {(provided) => (
-      <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        className="task-card"
-      >
-        <h3>{task.title}</h3>
-      </div>
-    )}
-  </Draggable>
-);
+const Task = ({ task }) => {
+  const onDragStart = (e) => {
+    e.dataTransfer.setData('text/plain', task.id.toString());
+  };
+
+  return (
+    <div
+      className="task"
+      draggable
+      onDragStart={onDragStart}
+    >
+      {task.text}
+    </div>
+  );
+};
 
 export default Task;

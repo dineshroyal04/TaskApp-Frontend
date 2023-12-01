@@ -70,3 +70,32 @@ button + button {
   margin-bottom: 10px;
 }
 /* ... (rest of the styles remain unchanged) */
+/* App.css */
+.App {
+  text-align: center;
+  margin: 20px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+.columns-container {
+  display: flex;
+}
+
+.task-list {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.task {
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  cursor: move;
+}

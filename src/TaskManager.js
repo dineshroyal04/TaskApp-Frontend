@@ -1,55 +1,58 @@
-// components/TaskManager.js
-import React, { useState } from 'react';
-import Stage from './components/Stage';
-import './App.css'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+// App.js
+import React, { useState } from "react";
+import "./App.css";
+import TaskList from "./components/TaskList";
 
-const stages = ['To Do', 'In Progress', 'Done'];
-
-const generateMockData = () => {
-  const mockData = [];
-
-  for (let i = 1; i <= 5; i++) {
-    mockData.push({ id: i, title: `Task ${i}`, stage: stages[i % stages.length] });
-  }
-
-  return mockData;
+const initialTasks = {
+  todo: [
+    { id: 1, text: "Task 1" },
+    { id: 2, text: "Task 2" },
+    { id: 3, text: "Task 3" },
+    { id: 4, text: "Task 4" },
+    { id: 5, text: "Task 5" },
+    { id: 6, text: "Task 6" },
+    { id: 7, text: "Task 7" },
+    { id: 8, text: "Task 8" },
+    { id: 9, text: "Task 9" },
+  ],
+  inProgress: [],
+  done: [],
 };
 
 const TaskManager = () => {
-  const [tasks, setTasks] = useState(generateMockData());
+  const [tasks, setTasks] = useState(initialTasks);
 
-  const moveTask = (result) => {
-    if (!result.destination) return;
+  const onDrop = (taskId, targetStage) => {
+    const updatedTasks = { ...tasks };
+    const task = updatedTasks[
+      Object.keys(updatedTasks).find((key) =>
+        updatedTasks[key].some((t) => t.id === taskId)
+      )
+    ].find((t) => t.id === taskId);
 
-    const updatedTasks = [...tasks];
-    const [removed] = updatedTasks.splice(result.source.index, 1);
-    updatedTasks.splice(result.destination.index, 0, removed);
+    updatedTasks[
+      Object.keys(updatedTasks).find((key) =>
+        updatedTasks[key].some((t) => t.id === taskId)
+      )
+    ] = updatedTasks[
+      Object.keys(updatedTasks).find((key) =>
+        updatedTasks[key].some((t) => t.id === taskId)
+      )
+    ].filter((t) => t.id !== taskId);
+    updatedTasks[targetStage] = [...updatedTasks[targetStage], task];
 
     setTasks(updatedTasks);
   };
 
   return (
-    <DragDropContext onDragEnd={moveTask}>
-      <div className="task-manager">
-        <h1>React Task Manager</h1>
-        <Droppable droppableId="all-stages" direction="horizontal" type="stage">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} className="stage-container">
-              {stages.map((stage, index) => (
-                <Stage
-                  key={stage}
-                  stage={stage}
-                  tasks={tasks.filter((task) => task.stage === stage)}
-                  onMoveTask={moveTask}
-                />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+    <div className="App">
+      <h1>Task Manager</h1>
+      <div className="columns-container">
+        <TaskList stage="todo" tasks={tasks.todo} onDrop={onDrop} />
+        <TaskList stage="inProgress" tasks={tasks.inProgress} onDrop={onDrop} />
+        <TaskList stage="done" tasks={tasks.done} onDrop={onDrop} />
       </div>
-    </DragDropContext>
+    </div>
   );
 };
 
