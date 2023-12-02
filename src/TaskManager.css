@@ -1,0 +1,32 @@
+/* components/TaskManager.css */
+.task-manager {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .stage-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .stage {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .task-card {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
